@@ -1,10 +1,70 @@
 {% extends 'base.html' %}
 {% block title %}Welcome Home!{% endblock %}
 {% block content %}
-    <div class='uk-flex'>
-        <div class="uk-card uk-card-hover uk-card-body" style='width:500px; height: 200px; margin:100px;'>
-            <h3 class="uk-card-title">Welcome {{ username }}!</h3>
-            <p>Some important data here</p>
+
+    <style>
+
+        td.overflow {
+
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+        }
+
+    </style>
+
+    <br>
+    
+    <div class="uk-container uk-container-xlarge">
+
+    <form>
+        <div class="uk-margin" uk-margin>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="form-horizontal-text" type="text" placeholder="Document name, ID, etc."  style="width: 20%;">
+                <button class="uk-button uk-button-default" style="width: 10%;">Search</button>
+            </div>
+            
         </div>
+    </form>
+    <br>
+
+    <table class="uk-table uk-table-middle uk-table-divider">
+        <thead>
+            <tr>
+                <th class="uk-width-small">ID</th>
+                <th>Filename</th>
+                <th>Path</th>
+                <th>Uploaded Time</th>
+                <th>MD5</th>
+                <th>SHA256</th>
+                <th>Contributor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in archive_dict %}
+            {% set fdict = archive_dict[file] %}
+            <tr>
+                <td>{{ fdict['id'] }}</td>
+                <td>{{ file }}</td>
+                <td>{{ fdict['rel_path'] }}</td>
+                <td>{{ fdict['ctime'] }}</td>
+                <td class="overflow">{{ fdict['md5hash'] }}</td>
+                <td class="overflow">{{ fdict['sha256hash'] }}</td>
+                <td>{{ fdict['contributor'] }}</td>
+                <td><button class="uk-button uk-button-secondary" type="button">download</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+    
+    
+
+    
+
     </div>
+
 {% endblock %}

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from archive import Archive, get_archive_stats
+import os
 
 
 #config
@@ -21,14 +23,21 @@ class Users(db.Model):
 
 host = '127.0.0.1'
 port = 5000
+archive_dict = {}
+
+@app.before_request
+def before_request():
+    if 'username' not in request.cookies and request.endpoint != 'login':
+        return redirect(url_for('login'))
 
 @app.route('/')
 def home():
 
     username = request.cookies.get('username')
     querystatement = request.cookies.get('querystatement')
+    
 
-    return render_template('home.html', username=username, querystatement=querystatement)
+    return render_template('home.html', username=username, querystatement=querystatement, archive_dict=archive_dict)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,5 +80,8 @@ with app.app_context():
         print('admin has been created already')
     
 
+
+
 if __name__ == '__main__':
+    get_archive_stats(archive_dict=archive_dict)
     app.run(host=host, port=port)

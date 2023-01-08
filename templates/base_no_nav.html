@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" />
+    <title>{% block title %}Base template{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+    {% endblock %}
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script>
+  <script>
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+    console.log('SQL STATEMENT: ' + decodeHtml("{{ querystatement }}"))
+
+  </script>
+</html>
